@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тестирование классов оружия и персонажей</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .character, .weapon {
+            margin-bottom: 20px;
+        }
+        .character h2, .weapon h2 {
+            margin-bottom: 10px;
+        }
+        .result {
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        button {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Тестирование классов оружия и персонажей</h1>
+
+    <div id="characterContainer">
+        <div class="character">
+            <h2>Создать персонажа</h2>
+            <label for="name">Имя персонажа:</label>
+            <input type="text" id="name" placeholder="Введите имя"><br><br>
+
+            <label for="characterType">Тип персонажа:</label>
+            <select id="characterType">
+                <option value="Warrior">Воин</option>
+                <option value="Archer">Лучник</option>
+                <option value="Mage">Маг</option>
+                <option value="Dwarf">Гном</option>
+                <option value="Crossbowman">Арбалетчик</option>
+                <option value="Demiurge">Демиург</option>
+            </select><br><br>
+
+            <button onclick="createCharacter()">Создать персонажа</button>
+
+            <div class="result" id="characterResult"></div>
+        </div>
+
+        <div class="weapon">
+            <h2>Выбор оружия</h2>
+            <label for="weaponType">Тип оружия:</label>
+            <select id="weaponType">
+                <option value="Arm">Рука</option>
+                <option value="Sword">Меч</option>
+                <option value="Bow">Лук</option>
+                <option value="Knife">Нож</option>
+                <option value="Staff">Посох</option>
+                <option value="Axe">Секира</option>
+                <option value="LongBow">Длинный лук</option>
+                <option value="StormStaff">Посох Бури</option>
+            </select><br><br>
+
+            <button onclick="equipWeapon()">Выбрать оружие</button>
+
+            <div class="result" id="weaponResult"></div>
+        </div>
+
+        <div class="battle">
+            <h2>Бой персонажей</h2>
+            <label for="distance">Расстояние до цели:</label>
+            <input type="number" id="distance" placeholder="Введите расстояние" value="1"><br><br>
+
+            <button onclick="simulateBattle()">Начать бой</button>
+
+            <div class="result" id="battleResult"></div>
+        </div>
+    </div>
+
+    <script src="final.js"></script>
+    <script>
+        let currentCharacter = null;
+        let currentWeapon = null;
+
+        function createCharacter() {
+            const name = document.getElementById('name').value;
+            const characterType = document.getElementById('characterType').value;
+
+            switch (characterType) {
+                case 'Warrior':
+                    currentCharacter = new Warrior(0, name);
+                    break;
+                case 'Archer':
+                    currentCharacter = new Archer(0, name);
+                    break;
+                case 'Mage':
+                    currentCharacter = new Mage(0, name);
+                    break;
+                case 'Dwarf':
+                    currentCharacter = new Dwarf(0, name);
+                    break;
+                case 'Crossbowman':
+                    currentCharacter = new Crossbowman(0, name);
+                    break;
+                case 'Demiurge':
+                    currentCharacter = new Demiurge(0, name);
+                    break;
+            }
+
+            document.getElementById('characterResult').innerText = `Персонаж ${currentCharacter.name} (${currentCharacter.description}) создан!`;
+        }
+
+        function equipWeapon() {
+            const weaponType = document.getElementById('weaponType').value;
+
+            switch (weaponType) {
+                case 'Arm':
+                    currentWeapon = new Arm();
+                    break;
+                case 'Sword':
+                    currentWeapon = new Sword();
+                    break;
+                case 'Bow':
+                    currentWeapon = new Bow();
+                    break;
+                case 'Knife':
+                    currentWeapon = new Knife();
+                    break;
+                case 'Staff':
+                    currentWeapon = new Staff();
+                    break;
+                case 'Axe':
+                    currentWeapon = new Axe();
+                    break;
+                case 'LongBow':
+                    currentWeapon = new LongBow();
+                    break;
+                case 'StormStaff':
+                    currentWeapon = new StormStaff();
+                    break;
+            }
+
+            if (currentCharacter) {
+                currentCharacter.weapon = currentWeapon;
+                document.getElementById('weaponResult').innerText = `Оружие ${currentWeapon.name} выбрано для персонажа ${currentCharacter.name}.`;
+            }
+        }
+
+        function simulateBattle() {
+            const distance = parseInt(document.getElementById('distance').value);
+
+            if (currentCharacter) {
+                const damage = currentCharacter.getDamage(distance);
+                document.getElementById('battleResult').innerText = `${currentCharacter.name} нанес урон: ${damage.toFixed(2)} на расстоянии ${distance}.`;
+            } else {
+                document.getElementById('battleResult').innerText = 'Сначала создайте персонажа!';
+            }
+        }
+    </script>
+</body>
+</html>

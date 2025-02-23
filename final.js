@@ -192,4 +192,3 @@ class Demiurge extends Mage {
         this.weapon = new StormStaff();
     }
 }
-ssh -T git@github.com
